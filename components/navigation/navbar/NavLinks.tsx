@@ -54,11 +54,11 @@ const NavLinks = ({ isForMobile = false }: { isForMobile?: boolean }) => {
         );
 
         return isForMobile ? (
-          <SheetClose asChild key={item.route}>
+          <SheetClose asChild key={item.label}>
             {LinkComponent}
           </SheetClose>
         ) : (
-          <React.Fragment key={item.route}>{LinkComponent}</React.Fragment>
+          <React.Fragment key={item.label}>{LinkComponent}</React.Fragment>
         );
       })}
     </>
