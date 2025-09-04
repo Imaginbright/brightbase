@@ -2,6 +2,7 @@ import ROUTES from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import TagCard from "../cards/TagCard";
 
 const hotQuestions = [
   { _id: "1", title: "What cards works on the Nigerian App Store?" },
@@ -9,6 +10,14 @@ const hotQuestions = [
   { _id: "3", title: "What is the best GPU for someone with $600 budget" },
   { _id: "4", title: "How do i mirror my Pc screen to iPad" },
   { _id: "5", title: "Can i play Gta 5 on my phone?" },
+];
+
+const popularTags = [
+  { _id: "1", name: "App Store", questions: 10 },
+  { _id: "2", name: "Streaming", questions: 15 },
+  { _id: "3", name: "Budget Build", questions: 30 },
+  { _id: "4", name: "US Shiping", questions: 18 },
+  { _id: "5", name: "iPad", questions: 12 },
 ];
 
 const RSidebar = () => {
@@ -34,6 +43,23 @@ const RSidebar = () => {
             />
           </Link>
         ))}
+      </div>
+
+      <div className="mt-16">
+        <h3 className="h3-bold text-dark200_light900">Popular Tags</h3>
+
+        <div className="mt-7 flex flex-col gap-4">
+          {popularTags.map(({ _id, name, questions }) => (
+            <TagCard
+              key={_id}
+              _id={_id}
+              name={name}
+              questions={questions}
+              showCount
+              compact
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
