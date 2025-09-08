@@ -5,11 +5,6 @@ interface UrlQueryParams {
   key: string;
   value: string;
 }
-interface UrlQueryParams {
-  params: string;
-  key: string;
-  value: string;
-}
 interface RemoveUrlQueryParams {
   params: string;
   keysToRemove: string[];
