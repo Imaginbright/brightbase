@@ -17,6 +17,12 @@ const eslintConfig = [
     "plugin:react/recommended",
     "prettier"
   ),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
+      "no-undef": "off", // turn off base JS rule
+    },
+  },
 ];
 
 export default eslintConfig;

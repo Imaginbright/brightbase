@@ -30,14 +30,14 @@ const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }: Props) => {
           value: searchQuery,
         });
 
-        router.push(newUrl, { scroll: false });
+        router.replace(newUrl, { scroll: false });
       } else {
         if (pathName === route) {
           const newUrl = removeKeysFromUrlQuery({
             params: searchParams.toString(),
             keysToRemove: ["query"],
           });
-          router.push(newUrl, { scroll: false });
+          router.replace(newUrl, { scroll: false });
         }
       }
     }, 700);

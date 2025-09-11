@@ -1,3 +1,4 @@
+import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
@@ -14,10 +15,16 @@ const questions = [
       "I have been trying to use my GTBank debit card on the App Store but it keeps getting declined. Does anyone know of a Nigerian debit card that works on the App Store?",
     tags: [
       { _id: "1", name: "Apple" },
-      { id: "2", name: "App Store" },
-      { id: "3", name: "Debit Card" },
+      { _id: "2", name: "App Store" },
+      { _id: "3", name: "Debit Card" },
       { id: "4", name: "Nigeria" },
     ],
+    author: {
+      _id: "1",
+      name: "Okonkwo Somto",
+      image:
+        "https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png",
+    },
     upvotes: 5,
     answers: 2,
     views: 150,
@@ -34,6 +41,12 @@ const questions = [
       { id: "3", name: "Screen Mirroring" },
       { id: "4", name: "Blender" },
     ],
+    author: {
+      _id: "1",
+      name: "Stephanie Mmesoma",
+      image:
+        "https://www.shutterstock.com/image-vector/vector-bright-portrait-beautiful-brunette-600nw-2452267975.jpg",
+    },
     upvotes: 5,
     answers: 2,
     views: 150,
@@ -50,7 +63,7 @@ const Home = async ({ searchParams }: SearchParams) => {
 
   // worked on sth here in  the end of chap 50
 
-  const fquestions = questions.filter((questions) =>
+  const filteredQuestions = questions.filter((questions) =>
     questions.title.toLowerCase().includes(query?.toLowerCase())
   );
 
@@ -76,8 +89,8 @@ const Home = async ({ searchParams }: SearchParams) => {
       </section>
       <HomeFilter />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {fquestions.map((questions) => (
-          <h1 key={questions._id}>{questions.title}</h1>
+        {filteredQuestions.map((questions) => (
+          <QuestionCard key={questions._id} questions={questions} />
         ))}
       </div>
     </>
