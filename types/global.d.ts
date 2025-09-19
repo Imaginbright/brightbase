@@ -1,7 +1,7 @@
-interface Tag {
-  _id: string;
-  name: string;
-}
+// interface Tag {
+//   _id: string;
+//   name: string;
+// }
 
 interface Author {
   _id: string;
@@ -10,9 +10,9 @@ interface Author {
 }
 
 interface Question {
-  _id: string;
+  _id: string | number;
   title: string;
-  tags: Tag[];
+  tags: any;
   author: Author;
   answers: string | number;
   createdAt: Date;
