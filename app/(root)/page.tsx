@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
@@ -56,22 +57,18 @@ const questions = [
   },
 ];
 
-const test = async () => {
-  try {
-    return await api.users.getAll();
-  } catch (error) {
-    return handleError(error);
-  }
-};
-
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const users = await test();
+  const session = await auth();
 
-  console.log(users);
+  if (session) {
+    console.log("✅ Session:", session);
+  } else {
+    console.log("⚠️ No session found (probably not logged in)");
+  }
 
   const { query = "", filter = "" } = await searchParams;
 
@@ -112,11 +109,3 @@ const Home = async ({ searchParams }: SearchParams) => {
 };
 
 export default Home;
-
-// const session = await auth();
-
-// if (session) {
-//   console.log("✅ Session:", session);
-// } else {
-//   console.log("⚠️ No session found (probably not logged in)");
-// }
