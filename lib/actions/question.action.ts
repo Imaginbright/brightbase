@@ -135,7 +135,7 @@ export async function editQuestion(
       await question.save({ session });
     }
 
-    // Determine tags to add and remove
+    // Determne what tags to add or remove
     const tagsToAdd = tags.filter(
       (tag) =>
         !question.tags.some(
