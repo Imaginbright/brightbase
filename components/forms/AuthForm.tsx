@@ -19,12 +19,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import ROUTES from "@/constants/routes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { title } from "process";
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -40,6 +43,8 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormProps<T>) => {
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   // 1. Define your form.
   const form = useForm<T>({
@@ -84,12 +89,33 @@ const AuthForm = <T extends FieldValues>({
                     : field.name.charAt(0).toUpperCase() + field.name.slice(1)}
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    required
-                    type={field.name === "password" ? "password" : "text"}
-                    {...field}
-                    className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
-                  />
+                  <div className="relative">
+                    <Input
+                      required
+                      type={
+                        field.name === "password"
+                          ? showPassword
+                            ? "text"
+                            : "password"
+                          : "text"
+                      }
+                      {...field}
+                      className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
+                    />
+                    {field.name === "password" && (
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

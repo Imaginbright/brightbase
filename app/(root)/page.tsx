@@ -62,14 +62,6 @@ interface SearchParams {
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const session = await auth();
-
-  if (session) {
-    console.log("✅ Session:", session);
-  } else {
-    console.log("⚠️ No session found (probably not logged in)");
-  }
-
   const { query = "", filter = "" } = await searchParams;
 
   // worked on sth here in  the end of chap 50

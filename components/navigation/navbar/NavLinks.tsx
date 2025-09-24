@@ -8,9 +8,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const NavLinks = ({ isForMobile = false }: { isForMobile?: boolean }) => {
+const NavLinks = ({
+  isForMobile = false,
+  userId,
+}: {
+  isForMobile?: boolean;
+  userId?: string;
+}) => {
   const pathName = usePathname();
-  const userId = 1;
 
   return (
     <>
