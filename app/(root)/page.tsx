@@ -1,74 +1,31 @@
-import { auth } from "@/auth";
+import React from "react";
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { api } from "@/lib/api";
-import handleError from "@/lib/handlers/error";
+import { getQuestions } from "@/lib/actions/question.action";
 
 import Link from "next/link";
-import React from "react";
-
-const questions = [
-  {
-    _id: "1",
-    title: "What Nigerian debit card works on App Store",
-    description:
-      "I have been trying to use my GTBank debit card on the App Store but it keeps getting declined. Does anyone know of a Nigerian debit card that works on the App Store?",
-    tags: [
-      { _id: "1", name: "Apple" },
-      { _id: "2", name: "App Store" },
-      { _id: "3", name: "Debit Card" },
-      { id: "4", name: "Nigeria" },
-    ],
-    author: {
-      _id: "1",
-      name: "Okonkwo Somto",
-      image:
-        "https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png",
-    },
-    upvotes: 5,
-    answers: 2,
-    views: 150,
-    createdAt: new Date(),
-  },
-  {
-    _id: "2",
-    title: "How to mirror my PC screen to my iPad",
-    description:
-      "I want to mirror my PC screen to my iPad so i can sculpt on Blender using it. What are the best apps or methods to achieve this?",
-    tags: [
-      { id: "1", name: "iPad" },
-      { id: "2", name: "PC" },
-      { id: "3", name: "Screen Mirroring" },
-      { id: "4", name: "Blender" },
-    ],
-    author: {
-      _id: "1",
-      name: "Stephanie Mmesoma",
-      image:
-        "https://www.shutterstock.com/image-vector/vector-bright-portrait-beautiful-brunette-600nw-2452267975.jpg",
-    },
-    upvotes: 5,
-    answers: 2,
-    views: 150,
-    createdAt: new Date(),
-  },
-];
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const { query = "", filter = "" } = await searchParams;
+  const { page, pageSize, query, filter } = await searchParams;
+
+  const { success, data, error } = await getQuestions({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || "",
+    filter: filter || "",
+  });
+
+  const { questions } = data || {};
 
   // worked on sth here in  the end of chap 50
-
-  const filteredQuestions = questions.filter((questions) =>
-    questions.title.toLowerCase().includes(query?.toLowerCase())
-  );
 
   return (
     <>
@@ -91,11 +48,25 @@ const Home = async ({ searchParams }: SearchParams) => {
         />
       </section>
       <HomeFilter />
-      <div className="mt-10 flex w-full flex-col gap-6">
-        {filteredQuestions.map((questions) => (
-          <QuestionCard key={questions._id} questions={questions} />
-        ))}
-      </div>
+      {success ? (
+        <div className="mt-10 flex w-full flex-col gap-6">
+          {questions && questions.length > 0 ? (
+            questions.map((questions) => (
+              <QuestionCard key={questions._id} questions={questions} />
+            ))
+          ) : (
+            <div className="mt-10 flex w-full items-center justify-center">
+              <p className="text-dark400_light700">No questions found</p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">
+            {error?.message || "Failed to fetch questions"}
+          </p>
+        </div>
+      )}
     </>
   );
 };
