@@ -35,7 +35,7 @@ export const EMPTY_TAGS = {
     "There are no tags available. Create some to help categorize your content.",
   button: {
     text: "Create Tag",
-    href: ROUTES.TAG,
+    href: ROUTES.TAGS,
   },
 };
 
