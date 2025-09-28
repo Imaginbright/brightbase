@@ -95,7 +95,7 @@ const AskAQuestion = ({ question, isEdit = false }: Params) => {
         });
 
         if (result.success) {
-          toast.success("Sucess", {
+          toast.success("Success", {
             description: "Question Updated Successfully",
           });
 
@@ -115,7 +115,7 @@ const AskAQuestion = ({ question, isEdit = false }: Params) => {
       const result = await createQuestion(data);
 
       if (result.success) {
-        toast.success("Sucess", {
+        toast.success("Success", {
           description: "Question Created Successfully",
         });
 
