@@ -60,8 +60,8 @@ interface UpdateVoteCountParams extends CreateVoteParams {
 type HasVotedParams = Pick<CreateVoteParams, "targetId" | "targetType">;
 
 interface HasVotedResponse {
-  hasUpvoted: boolean;
-  hasDownvoted: boolean;
+  hasupVoted: boolean;
+  hasdownVoted: boolean;
 }
 
 interface CollectionBaseParams {

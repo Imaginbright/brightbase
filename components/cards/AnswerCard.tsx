@@ -45,7 +45,9 @@ const AnswerCard = ({ _id, author, content, createdAt }: Props) => {
         <div className="flex justify-end">Vote</div>
       </div>
 
-      <Preview content={content} />
+      <div className="w-full min-w-0 break-words overflow-hidden">
+        <Preview content={content} />
+      </div>
     </article>
   );
 };
