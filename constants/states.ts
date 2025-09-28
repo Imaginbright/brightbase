@@ -41,7 +41,7 @@ export const EMPTY_TAGS = {
 
 export const EMPTY_ANSWERS = {
   title: "No Answers Available",
-  message: "There aren’t any answers yet. Share your knowledge to help others!",
+  message: "There aren’t any answers yet. Share your knowledge to help others",
 };
 
 export const EMPTY_COLLECTIONS = {
