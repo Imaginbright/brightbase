@@ -1,11 +1,13 @@
 import ROUTES from "@/constants/routes";
 import { getTimeStamp } from "@/lib/utils";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { ar } from "zod/locales";
 import UserAvatar from "../UserAvatar";
 import Link from "next/link";
 import { Preview } from "../editor/Preview";
+import Votes from "../votes/Votes";
+import { hasVoted } from "@/lib/actions/vote.action";
 
 interface Props extends Answer {
   containerClasses?: string;
@@ -13,7 +15,19 @@ interface Props extends Answer {
   showActionBtns?: boolean;
 }
 
-const AnswerCard = ({ _id, author, content, createdAt }: Props) => {
+const AnswerCard = ({
+  _id,
+  author,
+  content,
+  createdAt,
+  upvotes,
+  downvotes,
+}: Props) => {
+  const hasVotedPromise = hasVoted({
+    targetId: _id,
+    targetType: "answer",
+  });
+
   return (
     <article className="light-border border-b py-10 relative">
       <span id={JSON.stringify(_id)} className="hash-span" />
@@ -42,7 +56,17 @@ const AnswerCard = ({ _id, author, content, createdAt }: Props) => {
           </Link>
         </div>
 
-        <div className="flex justify-end">Vote</div>
+        <div className="flex justify-end">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Votes
+              targetType="answer"
+              targetId={_id}
+              hasVotedPromise={hasVotedPromise}
+              upvotes={upvotes}
+              downvotes={downvotes}
+            />
+          </Suspense>
+        </div>
       </div>
 
       <div className="w-full min-w-0 break-words overflow-hidden">
