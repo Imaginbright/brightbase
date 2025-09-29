@@ -9,15 +9,17 @@ import { toast } from "sonner";
 
 const SaveQuestion = ({
   questionId,
-  //   hasSavedQuestionPromise,
+  hasSavedQuestionPromise,
 }: {
   questionId: string;
-  //   hasSavedQuestionPromise: Promise<ActionResponse<{ saved: boolean }>>;
+  hasSavedQuestionPromise: Promise<ActionResponse<{ saved: boolean }>>;
 }) => {
   const session = useSession();
   const userId = session?.data?.user?.id;
 
-  const hasSaved = false;
+  const { data } = use(hasSavedQuestionPromise);
+
+  const { saved: hasSaved } = data || {};
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,7 +48,9 @@ const SaveQuestion = ({
 
   return (
     <Image
-      src={hasSaved ? "/icons/bookmark-green" : "/icons/bookmark-red.svg"}
+      src={
+        hasSaved ? "/icons/bookmark-filled.svg" : "/icons/bookmark-outlined.svg"
+      }
       width={18}
       height={18}
       alt="save"
