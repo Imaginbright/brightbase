@@ -1,5 +1,6 @@
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
+import Pagination from "@/components/Pagination";
 
 import LocalSearch from "@/components/search/LocalSearch";
 
@@ -38,13 +39,15 @@ const Tags = async ({ searchParams }: RouteParams) => {
         data={tags}
         empty={EMPTY_TAGS}
         render={(tags) => (
-          <div className="mt-10 flex w-full flex-wrap gap-4">
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4">
             {tags.map((tag) => (
               <TagCard key={tag._id} {...tag} />
             ))}
           </div>
         )}
       />
+
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };

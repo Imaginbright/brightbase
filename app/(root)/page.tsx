@@ -10,6 +10,7 @@ import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 import DataRenderer from "@/components/DataRenderer";
 import { EMPTY_QUESTION } from "@/constants/states";
+import Pagination from "@/components/Pagination";
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
@@ -25,7 +26,7 @@ const Home = async ({ searchParams }: SearchParams) => {
     filter: filter || "",
   });
 
-  const { questions } = data || {};
+  const { questions, isNext } = data || {};
 
   // worked on sth here in  the end of chap 50
 
@@ -63,6 +64,8 @@ const Home = async ({ searchParams }: SearchParams) => {
           </div>
         )}
       />
+
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };

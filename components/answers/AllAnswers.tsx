@@ -1,6 +1,7 @@
 import { EMPTY_ANSWERS } from "@/constants/states";
 import DataRenderer from "../DataRenderer";
 import AnswerCard from "../cards/AnswerCard";
+import Pagination from "../Pagination";
 
 interface Props extends ActionResponse<Answer[]> {
   page: number;
@@ -34,6 +35,8 @@ const AllAnswers = ({
           answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
+
+      <Pagination page={page} isNext={isNext || false} />
     </div>
   );
 };

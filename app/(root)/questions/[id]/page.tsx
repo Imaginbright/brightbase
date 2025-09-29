@@ -1,24 +1,28 @@
-import AllAnswers from "@/components/answers/AllAnswers";
-import TagCard from "@/components/cards/TagCard";
-import { Preview } from "@/components/editor/Preview";
-import AnswerForm from "@/components/forms/AnswerForm";
-import Metric from "@/components/Metric";
-import SaveQuestion from "@/components/questions/SaveQuestion";
-import UserAvatar from "@/components/UserAvatar";
-import Votes from "@/components/votes/Votes";
+import React, { Suspense } from "react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { after } from "next/server";
+
 import ROUTES from "@/constants/routes";
+import { formatNumber, getTimeStamp } from "@/lib/utils";
+
 import { getAnswers } from "@/lib/actions/answer.action";
 import { hasSavedQuestion } from "@/lib/actions/collection.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
 import { hasVoted } from "@/lib/actions/vote.action";
-import { formatNumber, getTimeStamp } from "@/lib/utils";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { after } from "next/server";
-import React, { Suspense } from "react";
+
+import Metric from "@/components/Metric";
+import UserAvatar from "@/components/UserAvatar";
+import Votes from "@/components/votes/Votes";
+import SaveQuestion from "@/components/questions/SaveQuestion";
+import TagCard from "@/components/cards/TagCard";
+import AnswerForm from "@/components/forms/AnswerForm";
+import { Preview } from "@/components/editor/Preview";
+import AllAnswers from "@/components/answers/AllAnswers";
 
 const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
+  const { page, pageSize, filter } = await searchParams;
   const { success, data: question } = await getQuestion({ questionId: id });
 
   after(async () => {
@@ -33,8 +37,8 @@ const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
     error: answersError,
   } = await getAnswers({
     questionId: id,
-    page: 1,
-    pageSize: 10,
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
     filter: "latest",
   });
 
@@ -132,7 +136,7 @@ const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
 
       <section className="my-5">
         <AllAnswers
-          page={1} //page={Number(page) || 1}
+          page={Number(page) || 1}
           isNext={answersResult?.isNext || false}
           data={answersResult?.answers}
           success={areAnswersLoaded}

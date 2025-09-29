@@ -63,6 +63,52 @@ const techProblemDescriptionMap: { [key: string]: string } = {
     "Device repairs can be expensive and risky, with unofficial services sometimes using low-quality parts.",
   accessories:
     "Finding compatible accessories can be tricky, and low-quality ones may cause performance issues or damage.",
+  headphones:
+    "Headphones enhance audio, but often face connectivity drops, poor sound quality, or durability issues.",
+  stylus:
+    "Styluses improve precision, but may lag, lose charge quickly, or wear out over time.",
+  smartwatch:
+    "Smartwatches track health and notifications, but battery life, app support, and sensor accuracy can be limiting.",
+  router:
+    "Routers control networks, but weak range, firmware bugs, and misconfigurations often disrupt connectivity.",
+  streaming:
+    "Streaming services offer content, but buffering, geo-restrictions, and subscription costs can frustrate users.",
+  cloudstorage:
+    "Cloud storage provides backups, but limited free space, sync errors, and security risks often arise.",
+  gamingconsole:
+    "Gaming consoles deliver entertainment, but overheating, crashes, and expensive accessories are common issues.",
+  projector:
+    "Projectors enhance media, but brightness, resolution, and connectivity problems often limit performance.",
+  smartlock:
+    "Smart locks add convenience, but battery failures, connectivity errors, and security vulnerabilities can be problematic.",
+  fitnessband:
+    "Fitness bands track metrics, but inaccurate readings, limited app support, and battery issues are frequent.",
+  usb: "USB devices enable transfer and charging, but slow speeds, compatibility issues, and wear are common problems.",
+  hdmi: "HDMI connections support displays, but cable quality, version mismatches, and signal loss often occur.",
+  projectorlamp:
+    "Projector lamps have limited lifespan, and replacements are costly or hard to source.",
+  keyboard:
+    "Keyboards can suffer stuck keys, ghosting, or connection problems that affect typing.",
+  microphone:
+    "Microphones capture sound, but background noise, sensitivity issues, and compatibility problems are frequent.",
+  smarthome:
+    "Smart home devices automate tasks, but reliability, integration, and security issues often arise.",
+  vpnsubscription:
+    "VPN subscriptions improve privacy, but slow speeds, server limits, and high costs are common drawbacks.",
+  appcrash:
+    "Apps can crash due to bugs, memory limits, or device incompatibilities, disrupting usage.",
+  touchscreen:
+    "Touchscreens may become unresponsive or inaccurate due to hardware wear or software glitches.",
+  softwarebug:
+    "Software bugs affect functionality and stability, sometimes requiring updates or reinstalls.",
+  firmware:
+    "Firmware updates improve devices, but flawed updates can introduce new issues or incompatibilities.",
+  hotspot:
+    "Mobile hotspots enable internet sharing, but data limits, connection drops, and battery drain are common.",
+  backup:
+    "Device backups prevent data loss, but long transfer times, storage limits, and corruption can frustrate users.",
+  aiassistant:
+    "AI assistants automate tasks, but context errors, inaccurate responses, and limited reasoning often occur.",
 };
 
 export const getTechProblemDescription = (techName: string): string => {
