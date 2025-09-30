@@ -2,6 +2,8 @@ import { EMPTY_ANSWERS } from "@/constants/states";
 import DataRenderer from "../DataRenderer";
 import AnswerCard from "../cards/AnswerCard";
 import Pagination from "../Pagination";
+import CommonFilter from "../filters/CommonFilter";
+import { AnswerFilters } from "@/constants/filters";
 
 interface Props extends ActionResponse<Answer[]> {
   page: number;
@@ -20,10 +22,16 @@ const AllAnswers = ({
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">
-        <h3 className="primary-text-gradient">
+        <h3 className="primary-text-gradient line-clamp-1">
           {totalAnswers} {totalAnswers === 1 ? "Answer" : "Answers"}
         </h3>
-        <p>Filter</p>
+        <div>
+          <CommonFilter
+            filters={AnswerFilters}
+            otherClasses="sm:min-w-32 "
+            containerClasses="max-xs:w-full z-50"
+          />
+        </div>
       </div>
 
       <DataRenderer
