@@ -43,8 +43,6 @@ const AllAnswers = ({
           answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
-
-      <Pagination page={page} isNext={isNext || false} />
     </div>
   );
 };
