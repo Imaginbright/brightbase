@@ -57,7 +57,7 @@ interface Answer {
   upvotes: number;
   question: string;
   downvotes: number;
-  createdAt: Date;
+  createdAt: Date | any;
 }
 
 interface RouteParams {
