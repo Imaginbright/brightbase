@@ -1,5 +1,5 @@
 import ROUTES from "@/constants/routes";
-import { getTimeStamp } from "@/lib/utils";
+import { cn, getTimeStamp } from "@/lib/utils";
 
 import React, { Suspense } from "react";
 import { ar } from "zod/locales";
@@ -22,6 +22,10 @@ const AnswerCard = ({
   createdAt,
   upvotes,
   downvotes,
+  question,
+  containerClasses,
+  showReadMore = false,
+  showActionBtns = false,
 }: Props) => {
   const hasVotedPromise = hasVoted({
     targetId: _id,
@@ -29,8 +33,8 @@ const AnswerCard = ({
   });
 
   return (
-    <article className="light-border border-b py-10 relative">
-      <span id={JSON.stringify(_id)} className="hash-span" />
+    <article className={cn("light-border border-b py-10 relative")}>
+      <span id={`answer-${_id}`} className="hash-span" />
 
       <div className="mb-5 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <div className="flex flex-1 items-start gap-1 sm:items-center">
@@ -72,6 +76,15 @@ const AnswerCard = ({
       <div className="w-full min-w-0 break-words overflow-hidden">
         <Preview content={content} />
       </div>
+
+      {showReadMore && (
+        <Link
+          href={`/questions/${question}#answer-${_id}`}
+          className="body-semibold relative z-10 font-space-grotesk text-primary-500"
+        >
+          <p className="mt-1">Read more...</p>
+        </Link>
+      )}
     </article>
   );
 };
