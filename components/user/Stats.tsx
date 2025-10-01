@@ -36,7 +36,7 @@ const Stats = ({
   return (
     <div className="mt-10">
       <h4 className="h3-semibold text-dark200_light900">
-        Stats{" "}
+        Stats -{" "}
         <span className="h3-semibold primary-text-gradient">
           {formatNumber(reputationPoints)}
         </span>
@@ -50,8 +50,6 @@ const Stats = ({
             </p>
             <p className="body-medium text-dark400_light700">Questions</p>
           </div>
-
-          <hr className="w-[.5px] h-full bg-gray-300 border-0 md:hidden" />
 
           <div className="max-md:flex max-md:flex-col max-md:items-center">
             <p className="paragraph-semibold text-dark200_light900">
