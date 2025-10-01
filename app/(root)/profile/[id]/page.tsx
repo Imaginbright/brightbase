@@ -148,9 +148,6 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
             <TabsTrigger value="top-posts" className="tab cursor-pointer">
               Top Posts
             </TabsTrigger>
-            <TabsTrigger value="answers" className="tab cursor-pointer">
-              Answers
-            </TabsTrigger>
           </TabsList>
           <TabsContent
             value="top-posts"
@@ -175,35 +172,6 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
                 </div>
               )}
             />
-
-            <Pagination page={page} isNext={hasMoreQuestions || false} />
-          </TabsContent>
-
-          <TabsContent value="answers" className="flex w-full flex-col gap-6">
-            <DataRenderer
-              success={userAnswersSuccess}
-              error={userAnswersError}
-              data={answers}
-              empty={EMPTY_ANSWERS}
-              render={(answers) => (
-                <div className="flex w-full flex-col gap-10">
-                  {answers.map((answer) => (
-                    <AnswerCard
-                      key={answer._id}
-                      {...answer}
-                      content={answer.content.slice(0, 27)}
-                      containerClasses="card-wrapper rounded-[10px] px-7 py-9 sm:px-11"
-                      showReadMore
-                      // showActionBtns={
-                      //   loggedInUser?.user?.id === answer.author._id
-                      // }
-                    />
-                  ))}
-                </div>
-              )}
-            />
-
-            <Pagination page={page} isNext={hasMoreAnswers || false} />
           </TabsContent>
         </Tabs>
 
