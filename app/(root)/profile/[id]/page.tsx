@@ -22,6 +22,7 @@ import QuestionCard from "@/components/cards/QuestionCard";
 import Pagination from "@/components/Pagination";
 import AnswerCard from "@/components/cards/AnswerCard";
 import TagCard from "@/components/cards/TagCard";
+import ROUTES from "@/constants/routes";
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
@@ -148,6 +149,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
             <TabsTrigger value="top-posts" className="tab cursor-pointer">
               Top Posts
             </TabsTrigger>
+
             <TabsTrigger value="answers" className="tab cursor-pointer">
               Answers
             </TabsTrigger>
