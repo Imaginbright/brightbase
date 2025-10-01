@@ -92,7 +92,7 @@ interface User {
   createdAt: Date;
 }
 
-interface Badges {
+interface BadgeCounts {
   GOLD: number;
   SILVER: number;
   BRONZE: number;
