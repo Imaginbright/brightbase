@@ -6,7 +6,7 @@ import { Answer, Question, User } from "@/database";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-// import { assignBadges } from "../utils";
+import { assignBadges } from "../utils";
 import {
   GetUserQuestionsSchema,
   GetUsersAnswersSchema,
@@ -260,72 +260,72 @@ export async function getUserTopTags(
   }
 }
 
-// export async function getUserStats(params: GetUserParams): Promise<
-//   ActionResponse<{
-//     totalQuestions: number;
-//     totalAnswers: number;
-//     badges: Badges;
-//   }>
-// > {
-//   const validationResult = await action({
-//     params,
-//     schema: GetUserSchema,
-//   });
+export async function getUserStats(params: GetUserParams): Promise<
+  ActionResponse<{
+    totalQuestions: number;
+    totalAnswers: number;
+    badges: BadgeCounts;
+  }>
+> {
+  const validationResult = await action({
+    params,
+    schema: GetUserSchema,
+  });
 
-//   if (validationResult instanceof Error) {
-//     return handleError(validationResult) as ErrorResponse;
-//   }
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
 
-//   const { userId } = params;
+  const { userId } = params;
 
-//   try {
-//     const [questionStats] = await Question.aggregate([
-//       { $match: { author: new Types.ObjectId(userId) } },
-//       {
-//         $group: {
-//           _id: null,
-//           count: { $sum: 1 },
-//           upvotes: { $sum: "$upvotes" },
-//           views: { $sum: "$views" },
-//         },
-//       },
-//     ]);
+  try {
+    const [questionStats] = await Question.aggregate([
+      { $match: { author: new Types.ObjectId(userId) } },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          upvotes: { $sum: "$upvotes" },
+          views: { $sum: "$views" },
+        },
+      },
+    ]);
 
-//     const [answerStats] = await Answer.aggregate([
-//       { $match: { author: new Types.ObjectId(userId) } },
-//       {
-//         $group: {
-//           _id: null,
-//           count: { $sum: 1 },
-//           upvotes: { $sum: "$upvotes" },
-//         },
-//       },
-//     ]);
+    const [answerStats] = await Answer.aggregate([
+      { $match: { author: new Types.ObjectId(userId) } },
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
+          upvotes: { $sum: "$upvotes" },
+        },
+      },
+    ]);
 
-//     const badges = assignBadges({
-//       criteria: [
-//         { type: "ANSWER_COUNT", count: answerStats.count },
-//         { type: "QUESTION_COUNT", count: questionStats.count },
-//         {
-//           type: "QUESTION_UPVOTES",
-//           count: questionStats.upvotes + answerStats.upvotes,
-//         },
-//         { type: "TOTAL_VIEWS", count: questionStats.views },
-//       ],
-//     });
+    const badges = assignBadges({
+      criteria: [
+        { type: "ANSWER_COUNT", count: answerStats.count },
+        { type: "QUESTION_COUNT", count: questionStats.count },
+        {
+          type: "QUESTION_UPVOTES",
+          count: questionStats.upvotes + answerStats.upvotes,
+        },
+        { type: "TOTAL_VIEWS", count: questionStats.views },
+      ],
+    });
 
-//     return {
-//       success: true,
-//       data: {
-//         totalQuestions: questionStats.count,
-//         totalAnswers: answerStats.count,
-//         badges,
-//       },
-//     };
-//   } catch (error) {
-//     return handleError(error) as ErrorResponse;
-//   }
-// }
+    return {
+      success: true,
+      data: {
+        totalQuestions: questionStats.count,
+        totalAnswers: answerStats.count,
+        badges,
+      },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
 
 export async function updateUser(
   params: UpdateUserParams

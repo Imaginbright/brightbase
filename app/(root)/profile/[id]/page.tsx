@@ -23,6 +23,7 @@ import Pagination from "@/components/Pagination";
 import AnswerCard from "@/components/cards/AnswerCard";
 import TagCard from "@/components/cards/TagCard";
 import ROUTES from "@/constants/routes";
+import { assignBadges } from "@/lib/utils";
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
@@ -79,6 +80,14 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
 
   const { _id, name, image, portfolio, location, createdAt, username, bio } =
     user;
+
+  const badges = assignBadges({
+    criteria: [
+      { type: "QUESTION_COUNT", count: totalQuestions || 0 },
+      { type: "ANSWER_COUNT", count: totalAnswers || 0 },
+      // i can add more (upvotes, views, etc.)
+    ],
+  });
 
   return (
     <>
@@ -139,7 +148,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
       <Stats
         totalQuestions={totalQuestions || 0}
         totalAnswers={totalAnswers || 0}
-        badges={{ GOLD: 0, SILVER: 0, BRONZE: 0 }}
+        badges={badges}
         reputationPoints={user.reputation || 0}
       />
 
