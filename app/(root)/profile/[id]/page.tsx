@@ -41,7 +41,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="h1-bold text-dark100_light900">User not Found</h1>
         <p className="paragraph-regular text-dark200_light800 max-w-md">
-          {error?.message}
+          {error?.message || "Something went wrong. Please try again later."}
         </p>
       </div>
     );
