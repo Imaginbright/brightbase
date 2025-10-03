@@ -44,9 +44,16 @@ const Collections = async ({ searchParams }: SearchParams) => {
 
       <DataRenderer
         success={success}
-        error={error}
+        error={error ? { message: "No questions saved yet" } : undefined} // provide object if there's an error
         data={collection}
-        empty={EMPTY_QUESTION}
+        empty={{
+          title: "No questions yet",
+          message: "No questions saved yet, save one now.",
+          button: {
+            text: "Save a question",
+            href: "/",
+          },
+        }}
         render={(collection) => (
           <div className="mt-10 flex w-full flex-col gap-6">
             {collection.map((item) => (
@@ -55,8 +62,6 @@ const Collections = async ({ searchParams }: SearchParams) => {
           </div>
         )}
       />
-
-      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };
