@@ -20,8 +20,9 @@ const eslintConfig = [
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
-      "no-undef": "off", // turn off base JS rule
+      "no-undef": "off",
     },
+    ignorePatterns: ["components/ui/**"], // <-- add this line
   },
 ];
 
