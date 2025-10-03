@@ -135,6 +135,21 @@ export const getDevIconClassName = (techName: string) => {
     : "devicon-ghost-original";
 };
 
+export const getCustomIcon = (techName: string): string | null => {
+  const normalizedTechName = techName.replace(/[ .]/g, "").toLowerCase();
+
+  const customIcons: Record<string, string> = {
+    apple: "/svg/apple.svg",
+    appstore: "/svg/appstore.svg",
+    debitcard: "/svg/debitcard.svg",
+    blender: "/svg/blender.svg",
+    ipad: "/svg/apple.svg",
+    // add more custom icons here
+  };
+
+  return customIcons[normalizedTechName] || null;
+};
+
 export function formatNumber(number: number) {
   if (number >= 1000000) {
     return (number / 1000000).toFixed(1) + "M";

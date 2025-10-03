@@ -6,6 +6,7 @@ import {
   cn,
   getDevIconClassName,
   getTechProblemDescription,
+  getCustomIcon,
 } from "@/lib/utils";
 import Image from "next/image";
 
@@ -31,17 +32,40 @@ const TagCard = ({
   handleRemove,
 }: Props) => {
   const iconClass = getDevIconClassName(name);
+  const customIcon = getCustomIcon(name);
   const iconDescription = getTechProblemDescription(name);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
   };
 
+  // Renders custom SVG if available, else falls back to Devicon <i>
+  const renderIcon = (size: "small" | "large" = "small") => {
+    const iconSizeClass = size === "large" ? "w-12 h-12" : "w-5 h-5"; // Tailwind sizing
+    const textSize = size === "large" ? "text-2xl" : "text-sm";
+
+    if (customIcon) {
+      return (
+        <div className={`flex items-center justify-center ${iconSizeClass}`}>
+          <Image
+            src={customIcon}
+            alt={`${name} icon`}
+            width={32}
+            height={32}
+            className="object-contain w-full h-full"
+          />
+        </div>
+      );
+    }
+
+    return <i className={`${iconClass} ${textSize}`} aria-hidden="true" />;
+  };
+
   const Content = (
     <>
       <Badge className="subtle-medium background-light800_dark300 text-light400_light500 border-none rounded-md px-4 py-2 flex flex-row gap-2">
         <div className="flex-center space-x-2">
-          <i className={`${iconClass} text-sm`}></i>
+          {renderIcon("small")}
           <span>{name}</span>
         </div>
 
@@ -82,7 +106,7 @@ const TagCard = ({
           <div className="background-light800_dark400 w-fit rounded-sm px-5 py-1.5">
             <p className="paragraph-semibold text-dark300_light900">{name}</p>
           </div>
-          <i className={cn(iconClass, "text-2xl")} aria-hidden="true" />
+          {renderIcon("large")}
         </div>
 
         <p className="small-regular text-dark500_light700 mt-5 line-clamp-3 w-full">
