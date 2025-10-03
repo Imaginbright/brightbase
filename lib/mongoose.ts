@@ -24,14 +24,14 @@ if (!cached) {
 }
 
 const dbConnect = async (): Promise<Mongoose> => {
-  if (cached.conn) {
-    return cached.conn;
-  }
+  if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
         dbName: "brightsbase",
+        bufferCommands: false, // prevent buffering
+        serverSelectionTimeoutMS: 30000, // 30s timeout
       })
       .then((result) => {
         logger.info("Connected to MongoDB");
@@ -42,8 +42,8 @@ const dbConnect = async (): Promise<Mongoose> => {
         throw error;
       });
   }
-  cached.conn = await cached.promise;
 
+  cached.conn = await cached.promise;
   return cached.conn;
 };
 

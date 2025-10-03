@@ -1,9 +1,12 @@
 import { auth } from "@/auth";
 import QuestionForm from "@/components/forms/QuestionForm";
+import dbConnect from "@/lib/mongoose";
 import { redirect } from "next/navigation";
 import React from "react";
 
 const AskAQuestion = async () => {
+  await dbConnect(); // ✅ Ensures DB connection is alive
+
   const session = await auth();
 
   if (!session) return redirect("/sign-in");

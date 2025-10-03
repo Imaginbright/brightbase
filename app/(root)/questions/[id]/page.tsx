@@ -6,6 +6,7 @@ import { after } from "next/server";
 import ROUTES from "@/constants/routes";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
+import dbConnect from "@/lib/mongoose"; // ✅ ADDED
 import { getAnswers } from "@/lib/actions/answer.action";
 import { hasSavedQuestion } from "@/lib/actions/collection.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
@@ -24,6 +25,8 @@ import { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: RouteParams): Promise<Metadata> {
+  await dbConnect(); // ✅ ADDED
+
   const { id } = await params;
 
   const { success, data: question } = await getQuestion({ questionId: id });
@@ -47,6 +50,8 @@ export async function generateMetadata({
 }
 
 const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
+  await dbConnect(); // ✅ ADDED
+
   const { id } = await params;
   const { page, pageSize, filter } = await searchParams;
   const { success, data: question } = await getQuestion({ questionId: id });
@@ -127,7 +132,7 @@ const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
         <Metric
           imgUrl="/icons/clock.svg"
           alt="clock icon"
-          value={` asked ${getTimeStamp(new Date(createdAt))}`} //should have $//
+          value={` asked ${getTimeStamp(new Date(createdAt))}`}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
