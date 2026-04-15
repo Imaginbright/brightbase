@@ -1,6 +1,8 @@
 "use server";
 
+import { Answer, Question, Vote } from "@/database";
 import mongoose, { ClientSession } from "mongoose";
+import { revalidatePath } from "next/cache";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import {
@@ -8,12 +10,10 @@ import {
   HasVotedSchema,
   UpdateVoteCountSchema,
 } from "../validations";
-import { Answer, Question, Vote } from "@/database";
-import { revalidatePath } from "next/cache";
 
 export async function updateVoteCount(
   params: UpdateVoteCountParams,
-  session?: ClientSession
+  session?: ClientSession,
 ): Promise<ActionResponse> {
   const validationResult = await action({
     params,
@@ -33,7 +33,7 @@ export async function updateVoteCount(
     const result = await Model.findByIdAndUpdate(
       targetId,
       { $inc: { [voteField]: change } },
-      { new: true, session }
+      { new: true, session },
     );
 
     if (!result) throw new Error("Failed to update vote count");
@@ -45,7 +45,7 @@ export async function updateVoteCount(
 }
 
 export async function createVote(
-  params: CreateVoteParams
+  params: CreateVoteParams,
 ): Promise<ActionResponse> {
   const validationResult = await action({
     params,
@@ -91,14 +91,14 @@ export async function createVote(
             voteType,
             change: -1,
           },
-          session
+          session,
         );
       } else {
         // If user is changing their vote, update voteType and adjust counts
         await Vote.findByIdAndUpdate(
           existingVote._id,
           { voteType },
-          { new: true, session }
+          { new: true, session },
         );
         await updateVoteCount(
           {
@@ -107,7 +107,7 @@ export async function createVote(
             voteType: existingVote.voteType,
             change: -1,
           },
-          session
+          session,
         );
         await updateVoteCount(
           {
@@ -116,7 +116,7 @@ export async function createVote(
             voteType,
             change: 1,
           },
-          session
+          session,
         );
       }
     } else {
@@ -130,7 +130,7 @@ export async function createVote(
             voteType,
           },
         ],
-        { session }
+        { session },
       );
       await updateVoteCount(
         {
@@ -139,7 +139,7 @@ export async function createVote(
           voteType,
           change: 1,
         },
-        session
+        session,
       );
     }
 
@@ -167,7 +167,7 @@ export async function createVote(
 }
 
 export async function hasVoted(
-  params: HasVotedParams
+  params: HasVotedParams,
 ): Promise<ActionResponse<HasVotedResponse>> {
   const validationResult = await action({
     params,

@@ -8,7 +8,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { z, ZodType } from "zod";
+import { ZodType } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,14 +20,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import ROUTES from "@/constants/routes";
-import { toast } from "sonner";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -59,7 +59,7 @@ const AuthForm = <T extends FieldValues>({
       toast.success(
         formType === "SIGN_IN"
           ? "Signed in successfully"
-          : "Signed up successfully"
+          : "Signed up successfully",
       );
 
       router.push(ROUTES.HOME);

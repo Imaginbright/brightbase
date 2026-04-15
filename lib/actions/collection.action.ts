@@ -1,19 +1,18 @@
 "use server";
 
-import mongoose from "mongoose";
+import ROUTES from "@/constants/routes";
 import { Collection, Question } from "@/database";
+import mongoose, { PipelineStage } from "mongoose";
+import { revalidatePath } from "next/cache";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import {
   CollectionBaseSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
-import { revalidatePath } from "next/cache";
-import ROUTES from "@/constants/routes";
-import { PipelineStage } from "mongoose";
 
 export async function toggleSaveQuestion(
-  params: CollectionBaseParams
+  params: CollectionBaseParams,
 ): Promise<ActionResponse<{ saved: boolean }>> {
   const validationResult = await action({
     params,
@@ -69,7 +68,7 @@ export async function toggleSaveQuestion(
 }
 
 export async function hasSavedQuestion(
-  params: CollectionBaseParams
+  params: CollectionBaseParams,
 ): Promise<ActionResponse<{ saved: boolean }>> {
   const validationResult = await action({
     params,
@@ -102,7 +101,7 @@ export async function hasSavedQuestion(
 }
 
 export async function getSavedQuestions(
-  params: PaginatedSearchParams
+  params: PaginatedSearchParams,
 ): Promise<ActionResponse<{ collection: Collection[]; isNext: boolean }>> {
   const validationResult = await action({
     params,

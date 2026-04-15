@@ -22,15 +22,15 @@ import {
 
 import dbConnect from "../mongoose";
 
-import { cache } from "react";
-import Collection from "@/database/collection.model";
-import Vote from "@/database/vote.model";
 import Answer from "@/database/answer.model";
+import Collection from "@/database/collection.model";
 import Interaction from "@/database/interaction.model";
+import Vote from "@/database/vote.model";
+import { cache } from "react";
 import { createInteraction } from "./interaction.action";
 
 export async function createQuestion(
-  params: CreateQuestionParams
+  params: CreateQuestionParams,
 ): Promise<ActionResponse<Question>> {
   const validationResult = await action({
     params,
@@ -51,7 +51,7 @@ export async function createQuestion(
   try {
     const [question] = await Question.create(
       [{ title, content, author: userId }],
-      { session }
+      { session },
     );
 
     if (!question) throw new Error("Failed to create the question");
@@ -63,7 +63,7 @@ export async function createQuestion(
       const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
         { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
-        { upsert: true, new: true, session }
+        { upsert: true, new: true, session },
       );
 
       tagIds.push(existingTag._id);
@@ -78,7 +78,7 @@ export async function createQuestion(
     await Question.findByIdAndUpdate(
       question._id,
       { $push: { tags: { $each: tagIds } } },
-      { session }
+      { session },
     );
 
     // log the interaction
@@ -103,7 +103,7 @@ export async function createQuestion(
 }
 
 export async function editQuestion(
-  params: EditQuestionParams
+  params: EditQuestionParams,
 ): Promise<ActionResponse<IQuestionDoc>> {
   const validationResult = await action({
     params,
@@ -139,13 +139,13 @@ export async function editQuestion(
     const tagsToAdd = tags.filter(
       (tag) =>
         !question.tags.some(
-          (t: ITagDoc) => t.name.toLowerCase() === tag.toLowerCase()
-        )
+          (t: ITagDoc) => t.name.toLowerCase() === tag.toLowerCase(),
+        ),
     );
 
     const tagsToRemove = question.tags.filter(
       (tag: ITagDoc) =>
-        !tags.some((t) => t.toLowerCase() === tag.name.toLowerCase())
+        !tags.some((t) => t.toLowerCase() === tag.name.toLowerCase()),
     );
 
     // Add new tags
@@ -155,7 +155,7 @@ export async function editQuestion(
         const newTag = await Tag.findOneAndUpdate(
           { name: { $regex: `^${tag}$`, $options: "i" } },
           { $setOnInsert: { name: tag }, $inc: { questions: 1 } },
-          { upsert: true, new: true, session }
+          { upsert: true, new: true, session },
         );
 
         if (newTag) {
@@ -172,19 +172,19 @@ export async function editQuestion(
       await Tag.updateMany(
         { _id: { $in: tagIdsToRemove } },
         { $inc: { questions: -1 } },
-        { session }
+        { session },
       );
 
       await TagQuestion.deleteMany(
         { tag: { $in: tagIdsToRemove }, question: questionId },
-        { session }
+        { session },
       );
 
       question.tags = question.tags.filter(
         (tag: mongoose.Types.ObjectId) =>
           !tagIdsToRemove.some((id: mongoose.Types.ObjectId) =>
-            id.equals(tag._id)
-          )
+            id.equals(tag._id),
+          ),
       );
     }
 
@@ -207,7 +207,7 @@ export async function editQuestion(
 }
 
 export const getQuestion = cache(async function getQuestion(
-  params: GetQuestionParams
+  params: GetQuestionParams,
 ): Promise<ActionResponse<Question>> {
   const validationResult = await action({
     params,
@@ -255,7 +255,7 @@ export async function getRecommendedQuestions({
   }).select("tags");
 
   const allTags = interactedQuestions.flatMap((q) =>
-    q.tags.map((tag: Types.ObjectId) => tag.toString())
+    q.tags.map((tag: Types.ObjectId) => tag.toString()),
   );
 
   const uniqueTagIds = [...new Set(allTags)];
@@ -382,7 +382,7 @@ export async function getQuestions(params: PaginatedSearchParams): Promise<
 }
 
 export async function incrementViews(
-  params: IncrementViewsParams
+  params: IncrementViewsParams,
 ): Promise<ActionResponse<{ views: number }>> {
   const validationResult = await action({
     params,
@@ -430,7 +430,7 @@ export async function getHotQuestions(): Promise<ActionResponse<Question[]>> {
 }
 
 export async function deleteQuestion(
-  params: DeleteQuestionParams
+  params: DeleteQuestionParams,
 ): Promise<ActionResponse> {
   const validationResult = await action({
     params,
@@ -464,7 +464,7 @@ export async function deleteQuestion(
       await Tag.updateMany(
         { _id: { $in: question.tags } },
         { $inc: { questions: -1 } },
-        { session }
+        { session },
       );
     }
 
@@ -476,7 +476,7 @@ export async function deleteQuestion(
 
     // Remove all answers and their votes of the question
     const answers = await Answer.find({ question: questionId }).session(
-      session
+      session,
     );
 
     if (answers.length > 0) {

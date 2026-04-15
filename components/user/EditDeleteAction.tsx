@@ -39,7 +39,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
         description: "Your question has been deleted successfully.",
       });
     } else if (type === "Answer") {
-      //This will calll the API to delete answer
+      // This will calll the API to delete answer
       await deleteAnswer({ answerId: itemId });
 
       toast("Answer deleted", {

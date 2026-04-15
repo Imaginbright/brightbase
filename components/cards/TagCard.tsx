@@ -1,14 +1,13 @@
 import ROUTES from "@/constants/routes";
+import {
+  getCustomIcon,
+  getDevIconClassName,
+  getTechProblemDescription,
+} from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Badge } from "../ui/badge";
-import {
-  cn,
-  getDevIconClassName,
-  getTechProblemDescription,
-  getCustomIcon,
-} from "@/lib/utils";
-import Image from "next/image";
 
 interface Props {
   _id: string;

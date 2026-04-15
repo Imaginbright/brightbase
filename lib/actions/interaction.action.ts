@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 import Interaction, { IInteractionDoc } from "@/database/interaction.model";
 
+import User from "@/database/user.model";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
 import { CreateInteractionSchema } from "../validations";
-import User from "@/database/user.model";
 
 export async function createInteraction(
-  params: CreateInteractionParams
+  params: CreateInteractionParams,
 ): Promise<ActionResponse<IInteractionDoc>> {
   const validationResult = await action({
     params,
@@ -41,7 +41,7 @@ export async function createInteraction(
           actionType: actionTarget,
         },
       ],
-      { session }
+      { session },
     );
 
     // Update reputation for both the performer and the content author
@@ -91,7 +91,7 @@ async function updateReputation(params: UpdateReputationParams) {
     await User.findByIdAndUpdate(
       performerId,
       { $inc: { reputation: authorPoints } },
-      { session }
+      { session },
     );
 
     return;
@@ -112,6 +112,6 @@ async function updateReputation(params: UpdateReputationParams) {
         },
       },
     ],
-    { session }
+    { session },
   );
 }

@@ -1,22 +1,19 @@
-import React from "react";
-
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import ROUTES from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
-import ROUTES from "@/constants/routes";
-import { Button } from "@/components/ui/button";
 
-import NavLinks from "./NavLinks";
 import { auth, signOut } from "@/auth";
 import { LogOut } from "lucide-react";
+import NavLinks from "./NavLinks";
 
 const MobileNavigation = async () => {
   const session = await auth();

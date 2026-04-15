@@ -1,5 +1,3 @@
-import React from "react";
-
 import { auth } from "@/auth";
 import ProfileLink from "@/components/user/ProfileLink";
 import UserAvatar from "@/components/UserAvatar";
@@ -11,19 +9,16 @@ import {
 } from "@/lib/actions/user.action";
 import { notFound } from "next/navigation";
 
+import QuestionCard from "@/components/cards/QuestionCard";
+import TagCard from "@/components/cards/TagCard";
+import DataRenderer from "@/components/DataRenderer";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Stats from "@/components/user/Stats";
+import { EMPTY_QUESTION, EMPTY_TAGS } from "@/constants/states";
+import { assignBadges } from "@/lib/utils";
 import dayjs from "dayjs";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Stats from "@/components/user/Stats";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import DataRenderer from "@/components/DataRenderer";
-import { EMPTY_ANSWERS, EMPTY_QUESTION, EMPTY_TAGS } from "@/constants/states";
-import QuestionCard from "@/components/cards/QuestionCard";
-import Pagination from "@/components/Pagination";
-import AnswerCard from "@/components/cards/AnswerCard";
-import TagCard from "@/components/cards/TagCard";
-import ROUTES from "@/constants/routes";
-import { assignBadges } from "@/lib/utils";
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;

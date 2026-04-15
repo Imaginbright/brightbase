@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,9 +17,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { createAnswer } from "@/lib/actions/answer.action";
 import { AnswerSchema } from "@/lib/validations";
 import { toast } from "sonner";
-import { createAnswer } from "@/lib/actions/answer.action";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,

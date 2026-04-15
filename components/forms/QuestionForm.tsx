@@ -1,9 +1,5 @@
 "use client";
 
-import React, { useRef, useTransition } from "react";
-import { AskQuestionSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Path, useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -13,17 +9,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import ROUTES from "@/constants/routes";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
+import { AskQuestionSchema } from "@/lib/validations";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import React, { useRef, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 import TagCard from "../cards/TagCard";
-import { createQuestion, editQuestion } from "@/lib/actions/question.action";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import ROUTES from "@/constants/routes";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -52,7 +52,7 @@ const AskAQuestion = ({ question, isEdit = false }: Params) => {
 
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    field: { value: string[] }
+    field: { value: string[] },
   ) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -85,7 +85,7 @@ const AskAQuestion = ({ question, isEdit = false }: Params) => {
   };
 
   const handleCreatedQuestion = async (
-    data: z.infer<typeof AskQuestionSchema>
+    data: z.infer<typeof AskQuestionSchema>,
   ) => {
     startTransition(async () => {
       if (isEdit && question) {
@@ -100,7 +100,7 @@ const AskAQuestion = ({ question, isEdit = false }: Params) => {
           });
 
           if (result.data) {
-            const question = result.data as { _id: string };
+            const question = result.data as unknown as { _id: string };
             router.push(ROUTES.QUESTION(question._id));
           }
         } else {

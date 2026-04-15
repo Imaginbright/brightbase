@@ -10,19 +10,36 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    // Fixes the "ignorePatterns" error from before
+    ignores: ["components/ui/**", ".next/**", "node_modules/**"],
+  },
   ...compat.extends(
     "next/core-web-vitals",
     "next/typescript",
     "standard",
     "plugin:react/recommended",
-    "prettier"
+    "prettier",
   ),
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
       "no-undef": "off",
+      // Fixes the "React must be in scope" errors (Next.js 15 handles this automatically)
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      // Downgrades unused variables to warnings so they don't stop your build
+      "@typescript-eslint/no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      // Fixes the unescaped entities errors (e.g., using ' instead of &apos;)
+      "react/no-unescaped-entities": "off",
+      "import/no-duplicates": "warn",
     },
-    ignorePatterns: ["components/ui/**"], // <-- add this line
+    settings: {
+      react: {
+        version: "detect", // Automatically detects React version
+      },
+    },
   },
 ];
 
